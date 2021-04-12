@@ -239,7 +239,7 @@ test('prototype support', t => {
 
 test('.decorator()', t => {
 	class TestClass {
-		index = 0;
+		constructor(public index: number) {}
 
 		@mem.decorator()
 		counter() {
@@ -247,12 +247,12 @@ test('.decorator()', t => {
 		}
 	}
 
-	const alpha = new TestClass();
+	const alpha = new TestClass(0);
 	t.is(alpha.counter(), 1);
 	t.is(alpha.counter(), 1, 'The method should be memoized');
 
-	const beta = new TestClass();
-	t.is(beta.counter(), 1, 'The method should not be memoized across instances');
+	const beta = new TestClass(100);
+	t.is(beta.counter(), 101, 'The method should not be memoized across instances');
 });
 
 test('mem.clear() throws when called with a plain function', t => {
